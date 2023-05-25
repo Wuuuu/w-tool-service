@@ -7,10 +7,8 @@ export type UserDocument = mongoose.HydratedDocument<User>;
 
 @Schema({ timestamps: true }) // timestamps: true Mongoose会自动生成createdAt、updatedAt两个字段
 export class User {
-  @Prop({
-    type: mongoose.Schema.Types.UUID,
-  })
-  id: string;
+  @Prop()
+  _id: string;
 
   @Prop({ maxlength: 100, nullable: true })
   username: string;

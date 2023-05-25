@@ -10,7 +10,7 @@ import {
   Request,
   UseInterceptors,
   ClassSerializerInterceptor,
-  Req,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,6 +23,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('用户')
 @Controller('user')
@@ -39,16 +40,18 @@ export class UserController {
 
   @ApiOperation({ summary: '获取用户信息' })
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get('info')
-  async getUserInfo(@Req() req) {
+  async getUserInfo(@Request() req) {
     console.log(req.user);
     return req.user;
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.userService.findOne(+id);
-  // }
+  @ApiOperation({ summary: '通过id查找用户' })
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

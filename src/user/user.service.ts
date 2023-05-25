@@ -23,7 +23,6 @@ export class UserService {
     }
 
     const createdUser = await this.userModel.create(createUserDto);
-    console.log(createdUser);
     return createdUser;
   }
 
@@ -31,10 +30,13 @@ export class UserService {
   //   return `This action returns all user`;
   // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
+  async findOne(id: string) {
+    return await this.userModel.findOne({ _id: id }).exec();
+  }
 
+  async findUser(username: string) {
+    return await this.userModel.findOne({ username }).exec();
+  }
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;
   // }
