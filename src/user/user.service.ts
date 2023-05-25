@@ -13,34 +13,33 @@ export class UserService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
-    console.log('createdCat', createUserDto);
+  async register(createUserDto: CreateUserDto) {
     const { username } = createUserDto;
     const existUser = await this.userModel.findOne({
       username,
     });
-    console.log('existUser', existUser);
     if (existUser) {
       throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST);
     }
 
     const createdUser = await this.userModel.create(createUserDto);
+    console.log(createdUser);
     return createdUser;
   }
 
-  findAll() {
-    return `This action returns all user`;
-  }
+  // async findAll(createUserDto: CreateUserDto) {
+  //   return `This action returns all user`;
+  // }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} user`;
+  // }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+  // update(id: number, updateUserDto: UpdateUserDto) {
+  //   return `This action updates a #${id} user`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} user`;
+  // }
 }

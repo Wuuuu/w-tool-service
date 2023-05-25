@@ -12,14 +12,14 @@ export class User {
   })
   id: string;
 
-  @Prop({ maxlength: 100 })
+  @Prop({ maxlength: 100, nullable: true })
   username: string;
 
   @Prop({ maxlength: 100 })
   nickname: string;
 
   @Exclude()
-  @Prop({ select: false })
+  @Prop()
   password: string;
 
   @Prop()
