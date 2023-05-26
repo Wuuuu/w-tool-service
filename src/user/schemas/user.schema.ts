@@ -17,7 +17,7 @@ export class User {
   nickname: string;
 
   @Exclude()
-  @Prop({ select: false })
+  @Prop()
   password: string;
 
   @Prop()
@@ -29,8 +29,8 @@ export class User {
   @Prop()
   openid: string;
 
-  @Prop({ enum: ['root', 'admin', 'visitor'], default: 'visitor' })
-  role: string;
+  @Prop({ enum: ['root', 'admin', 'guest'], default: 'guest' })
+  access: string;
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);

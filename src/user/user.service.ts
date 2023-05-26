@@ -19,8 +19,8 @@ export class UserService {
     if (existUser) {
       throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST);
     }
-    await this.userModel.create(createUserDto);
-    return await this.userModel.findOne({ username });
+    const createUser = await this.userModel.create(createUserDto);
+    return createUser;
   }
 
   // async findAll(createUserDto: CreateUserDto) {
@@ -32,7 +32,8 @@ export class UserService {
   }
 
   async findUser(username: string) {
-    return await this.userModel.findOne({ username }).exec();
+    const userInfo = await this.userModel.findOne({ username });
+    return userInfo;
   }
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;

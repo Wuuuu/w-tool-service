@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
+    cors: true,
     // logger: console,
   });
   app.setGlobalPrefix('api'); // 全局路由前缀

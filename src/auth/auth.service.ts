@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { User } from 'src/user/schemas/user.schema';
@@ -19,14 +23,18 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User) {
+  async login(username, pass) {
+    const user = await this.userService.findUser(username);
+    if (user?.password !== pass) {
+      throw new BadRequestException('密码错误！');
+    }
     const payload = { username: user.username, sub: user.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: await this.jwtService.signAsync(payload),
     };
   }
 
-  async getUser(user) {
-    return await this.userService.findOne(user.id);
+  async getUser(username) {
+    return await this.userService.findUser(username);
   }
 }

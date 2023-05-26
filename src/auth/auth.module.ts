@@ -31,10 +31,10 @@ const jwtModule = JwtModule.registerAsync({
   controllers: [AuthController],
   providers: [
     AuthService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AuthGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
     LocalStrategy,
     JwtStrategy,
   ],
