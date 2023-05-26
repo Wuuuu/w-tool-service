@@ -5,7 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -26,7 +26,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
-  login(@Request() req) {
+  login(@Body() user: LoginDto, @Req() req) {
     return this.authService.login(req.user);
   }
 }

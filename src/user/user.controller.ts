@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Version,
-  Request,
+  Req,
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
@@ -22,8 +22,9 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './schemas/user.schema';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UserInfoDto } from './dto/user-info.dto';
+
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('用户')
 @Controller('user')
@@ -31,7 +32,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({ summary: '用户注册' })
-  @ApiResponse({ status: 201, type: User })
+  @ApiResponse({ status: 201, type: UserInfoDto })
   // @UseInterceptors(ClassSerializerInterceptor) // 过滤掉接口返回的某个字段，配合Exclude()使用
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
@@ -40,10 +41,9 @@ export class UserController {
 
   @ApiOperation({ summary: '获取用户信息' })
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Get('info')
-  async getUserInfo(@Request() req) {
-    console.log(req.user);
+  async getUserInfo(@Req() req) {
     return req.user;
   }
 

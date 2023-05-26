@@ -8,7 +8,7 @@ export type UserDocument = mongoose.HydratedDocument<User>;
 @Schema({ timestamps: true }) // timestamps: true Mongoose会自动生成createdAt、updatedAt两个字段
 export class User {
   @Prop()
-  _id: string;
+  id: string;
 
   @Prop({ maxlength: 100, nullable: true })
   username: string;
@@ -17,7 +17,7 @@ export class User {
   nickname: string;
 
   @Exclude()
-  @Prop()
+  @Prop({ select: false })
   password: string;
 
   @Prop()
@@ -31,6 +31,10 @@ export class User {
 
   @Prop({ enum: ['root', 'admin', 'visitor'], default: 'visitor' })
   role: string;
+
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

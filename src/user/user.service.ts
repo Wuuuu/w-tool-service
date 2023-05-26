@@ -9,9 +9,7 @@ import { User } from './schemas/user.schema';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(User.name) private readonly userModel: Model<User>,
-  ) {}
+  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async register(createUserDto: CreateUserDto) {
     const { username } = createUserDto;
@@ -21,16 +19,15 @@ export class UserService {
     if (existUser) {
       throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST);
     }
-
-    const createdUser = await this.userModel.create(createUserDto);
-    return createdUser;
+    await this.userModel.create(createUserDto);
+    return await this.userModel.findOne({ username });
   }
 
   // async findAll(createUserDto: CreateUserDto) {
   //   return `This action returns all user`;
   // }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<User> {
     return await this.userModel.findOne({ _id: id }).exec();
   }
 
