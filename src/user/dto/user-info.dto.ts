@@ -13,5 +13,5 @@ export class UserInfoDto {
   readonly avatar: string;
 
   @ApiProperty({ description: '用户角色' })
-  readonly role: string;
+  readonly access: string;
 }

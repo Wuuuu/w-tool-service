@@ -12,5 +12,5 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({ description: '用户角色' })
-  readonly role: string;
+  readonly access: string;
 }

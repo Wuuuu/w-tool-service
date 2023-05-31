@@ -32,7 +32,8 @@ export class UserService {
   }
 
   async findUser(username: string) {
-    const userInfo = await this.userModel.findOne({ username });
+    const userInfo = await this.userModel.findOne({ username }).exec();
+    console.log('userInfo', userInfo);
     return userInfo;
   }
   // update(id: number, updateUserDto: UpdateUserDto) {
