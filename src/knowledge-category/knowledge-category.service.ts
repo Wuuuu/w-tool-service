@@ -26,8 +26,20 @@ export class KnowledgeCategoryService {
     return createCollection;
   }
 
-  async findAll() {
-    return await this.knowledgeCategoryModel.find().exec();
+  async findAll(page: number, limit: number) {
+    const data = await this.knowledgeCategoryModel
+      .find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    const total = await this.knowledgeCategoryModel.countDocuments().exec();
+    return {
+      data,
+      current: page,
+      pageSize: limit,
+      total,
+    };
   }
 
   findOne(id: number) {

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { KnowledgeCategoryService } from './knowledge-category.service';
 import { CreateKnowledgeCategoryDto } from './dto/create-knowledge-category.dto';
@@ -39,8 +40,11 @@ export class KnowledgeCategoryController {
   @ApiOperation({ summary: '知识所有合集' })
   @ApiBearerAuth()
   @Get('list')
-  findAll() {
-    return this.knowledgeCategoryService.findAll();
+  findAll(
+    @Query('current') current: number = 1,
+    @Query('pageSize') pageSize: number = 10,
+  ) {
+    return this.knowledgeCategoryService.findAll(current, pageSize);
   }
 
   @Get(':id')
