@@ -12,7 +12,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
-// import { LoginDto } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from './local-auth.guard';
 
 @ApiTags('验证')
@@ -26,7 +26,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
-  login(@Body() loginDto: Record<string, string>) {
+  login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto.username, loginDto.password);
   }
 }

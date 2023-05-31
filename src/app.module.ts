@@ -7,6 +7,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { KnowledgeCategoryModule } from './knowledge-category/knowledge-category.module';
+import { KnowledgePointsModule } from './knowledge-points/knowledge-points.module';
 
 // dotenv.config();
 @Module({
@@ -17,9 +19,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get('MONGODB_DATABASE_URL'),
+        dbName: 'w-tool-service',
       }),
     }),
     AuthModule,
+    KnowledgeCategoryModule,
+    KnowledgePointsModule,
   ],
   controllers: [],
   providers: [],

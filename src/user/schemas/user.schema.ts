@@ -5,7 +5,9 @@ import * as bcrypt from 'bcryptjs';
 
 export type UserDocument = mongoose.HydratedDocument<User>;
 
-@Schema({ timestamps: true }) // timestamps: true Mongoose会自动生成createdAt、updatedAt两个字段
+@Schema({
+  timestamps: { createdAt: 'created_time', updatedAt: 'updated_time' },
+}) // timestamps: true Mongoose会自动生成createdAt、updatedAt两个字段, 并将两个字段自定义名字
 export class User {
   @Prop()
   id: string;
