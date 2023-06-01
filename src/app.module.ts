@@ -9,8 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KnowledgeCategoryModule } from './knowledge-category/knowledge-category.module';
 import { KnowledgePointsModule } from './knowledge-points/knowledge-points.module';
+import { UploadModule } from './upload/upload.module';
 
-// dotenv.config();
 @Module({
   imports: [
     UserModule,
@@ -25,6 +25,7 @@ import { KnowledgePointsModule } from './knowledge-points/knowledge-points.modul
     AuthModule,
     KnowledgeCategoryModule,
     KnowledgePointsModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],
