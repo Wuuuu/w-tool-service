@@ -46,8 +46,20 @@ export class KnowledgeCategoryService {
     return `This action returns a #${id} knowledgeCategory`;
   }
 
-  update(id: number, updateKnowledgeCategoryDto: UpdateKnowledgeCategoryDto) {
-    return `This action updates a #${id} knowledgeCategory`;
+  async update(
+    id: string,
+    updateKnowledgeCategoryDto: UpdateKnowledgeCategoryDto,
+  ) {
+    await this.knowledgeCategoryModel.findByIdAndUpdate(
+      id,
+      {
+        $set: updateKnowledgeCategoryDto,
+      },
+      {
+        new: true,
+      },
+    );
+    return '更新成功';
   }
 
   async remove(id: string) {

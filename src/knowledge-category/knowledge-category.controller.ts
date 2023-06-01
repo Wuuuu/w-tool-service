@@ -52,15 +52,14 @@ export class KnowledgeCategoryController {
     return this.knowledgeCategoryService.findOne(+id);
   }
 
-  @Patch(':id')
+  @ApiOperation({ summary: '更新某个合集' })
+  @ApiBearerAuth()
+  @Patch('update/:id') // PUT 方法用于完全替换资源，即将整个资源的内容都替换为请求中提供的内容。而 PATCH 方法则只会更新资源的一部分内容，例如更新某个字段的值，而不需要更新整个资源的所有字段。
   update(
     @Param('id') id: string,
     @Body() updateKnowledgeCategoryDto: UpdateKnowledgeCategoryDto,
   ) {
-    return this.knowledgeCategoryService.update(
-      +id,
-      updateKnowledgeCategoryDto,
-    );
+    return this.knowledgeCategoryService.update(id, updateKnowledgeCategoryDto);
   }
 
   @ApiOperation({ summary: '删除某个合集' })
