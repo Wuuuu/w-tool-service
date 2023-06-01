@@ -38,7 +38,7 @@ export class KnowledgeCategoryController {
   }
 
   @ApiOperation({ summary: '知识所有合集' })
-  @ApiBearerAuth()
+  @ApiBearerAuth() // 在API接口中使用Bearer Token进行身份验证
   @Get('list')
   findAll(
     @Query('current') current: number = 1,
@@ -63,8 +63,10 @@ export class KnowledgeCategoryController {
     );
   }
 
-  @Delete(':id')
+  @ApiOperation({ summary: '删除某个合集' })
+  @ApiBearerAuth()
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
-    return this.knowledgeCategoryService.remove(+id);
+    return this.knowledgeCategoryService.remove(id);
   }
 }

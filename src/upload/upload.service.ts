@@ -43,8 +43,6 @@ export class UploadService {
               url: 'https://' + data.Location,
               // filename: cosName,
             });
-
-            resolve(data);
           }
         },
       );

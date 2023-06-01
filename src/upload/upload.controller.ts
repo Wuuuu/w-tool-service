@@ -56,7 +56,7 @@ export class UploadController {
       },
     },
   })
-  @Post('cos')
+  @Post('cosUpload')
   @UseInterceptors(FileInterceptor('file'))
   async cosUploadFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
     const cosFilePath = `uploads/${file.originalname}`;

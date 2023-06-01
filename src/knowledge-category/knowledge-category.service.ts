@@ -50,7 +50,13 @@ export class KnowledgeCategoryService {
     return `This action updates a #${id} knowledgeCategory`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} knowledgeCategory`;
+  async remove(id: string) {
+    const delObj = await this.knowledgeCategoryModel.findByIdAndRemove({
+      _id: id,
+    });
+    if (!delObj) {
+      throw new HttpException('数据不存在', HttpStatus.BAD_REQUEST);
+    }
+    return '删除成功';
   }
 }
