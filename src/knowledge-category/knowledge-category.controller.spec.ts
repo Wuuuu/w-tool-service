@@ -11,7 +11,9 @@ describe('KnowledgeCategoryController', () => {
       providers: [KnowledgeCategoryService],
     }).compile();
 
-    controller = module.get<KnowledgeCategoryController>(KnowledgeCategoryController);
+    controller = module.get<KnowledgeCategoryController>(
+      KnowledgeCategoryController,
+    );
   });
 
   it('should be defined', () => {

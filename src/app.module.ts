@@ -8,7 +8,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KnowledgeCategoryModule } from './knowledge-category/knowledge-category.module';
-import { KnowledgePointsModule } from './knowledge-points/knowledge-points.module';
+import { KnowledgeSubCategryModule } from './knowledge-subCategory/knowledge-subCategory.module';
 import { UploadModule } from './upload/upload.module';
 
 @Module({
@@ -24,7 +24,7 @@ import { UploadModule } from './upload/upload.module';
     }),
     AuthModule,
     KnowledgeCategoryModule,
-    KnowledgePointsModule,
+    KnowledgeSubCategryModule,
     UploadModule,
   ],
   controllers: [],

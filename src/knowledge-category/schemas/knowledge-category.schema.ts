@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { KnowledgePoint } from '../../knowledge-points/schamas/knowledge-point.schema';
+import { KnowledgeSubCategory } from '../../knowledge-subCategory/schamas/knowledge-subCategory.schema';
 
-// export type KnowledgeCategoryDocument =
-//   mongoose.HydratedDocument<KnowledgeCategory>;
+export type KnowledgeCategoryDocument =
+  mongoose.HydratedDocument<KnowledgeCategory>;
 
 @Schema({
   timestamps: { createdAt: 'createdTime', updatedAt: 'updatedTime' },
@@ -28,8 +28,8 @@ export class KnowledgeCategory extends Document {
   @Prop()
   likeCount: number;
 
-  @Prop({ type: [Object] })
-  subCategories: KnowledgePoint[];
+  @Prop({ type: [Object], ref: 'KnowledgeSubCategory' })
+  subCategories: KnowledgeSubCategory[];
 }
 
 export const KnowledgeCategorySchema =

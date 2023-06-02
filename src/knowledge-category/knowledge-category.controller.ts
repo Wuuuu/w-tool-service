@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  Req,
 } from '@nestjs/common';
 import { KnowledgeCategoryService } from './knowledge-category.service';
 import { CreateKnowledgeCategoryDto } from './dto/create-knowledge-category.dto';
@@ -19,9 +20,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Public } from '../auth/decorators/public.decorator';
+// import { CreateKnowledgeSubCategoryDto } from '../knowledge-subCategory/dto/create-subCategory.dto';
 
-@ApiTags('知识类别集合')
+@ApiTags('知识集合类别')
 @Controller('knowledge-category')
 export class KnowledgeCategoryController {
   constructor(
@@ -68,4 +69,14 @@ export class KnowledgeCategoryController {
   remove(@Param('id') id: string) {
     return this.knowledgeCategoryService.remove(id);
   }
+
+  // @ApiOperation({ summary: '新增合集下知识点' })
+  // @ApiBearerAuth()
+  // @Post('/create/sub-knowledge')
+  // createSubKnowledeg(
+  //   @Body() subKnowledeg: CreateKnowledgeSubCategoryDto,
+  //   @Req() req,
+  // ) {
+  //   console.log('subKnowledeg', subKnowledeg, req);
+  // }
 }

@@ -11,7 +11,7 @@ import { AuthGuard } from './auth.guard';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user/user.module';
-import { User, UserSchema } from '../user/schemas/user.schema';
+import { UserSchema } from '../user/schemas/user.schema';
 
 const jwtModule = JwtModule.registerAsync({
   inject: [ConfigService],
