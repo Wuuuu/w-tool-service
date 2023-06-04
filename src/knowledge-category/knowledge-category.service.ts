@@ -7,14 +7,15 @@ import {
 } from './schemas/knowledge-category.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { KnowledgeSubCategoryDocument } from '../knowledge-subCategory/schamas/knowledge-subCategory.schema';
-// import { CreateKnowledgeSubCategoryDto } from '../knowledge-subCategory/dto/create-subCategory.dto';
+import { KnowledgeSubCategory } from 'src/knowledge-subCategory/schamas/knowledge-subCategory.schema';
 
 @Injectable()
 export class KnowledgeCategoryService {
   constructor(
     @InjectModel('KnowledgeCategory')
-    private readonly knowledgeCategoryModel: Model<KnowledgeCategoryDocument>, // @InjectModel('KnowledgeSubCategory') // private readonly knowledgePointModel: Model<KnowledgeSubCategoryDocument>,
+    private readonly knowledgeCategoryModel: Model<KnowledgeCategory>,
+    @InjectModel('KnowledgeSubCategory')
+    private knowledgeSubCategoryModel: Model<KnowledgeSubCategory>,
   ) {}
 
   async create(createKnowledgeCategoryDto: CreateKnowledgeCategoryDto) {
@@ -32,8 +33,12 @@ export class KnowledgeCategoryService {
   }
 
   async findAll(page: number, limit: number) {
+    const selectStr =
+      'collectionName coverUrl createdTime updatedTime likeCount summary _id';
+
     const data = await this.knowledgeCategoryModel
       .find()
+      .select(selectStr)
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
@@ -76,22 +81,4 @@ export class KnowledgeCategoryService {
     }
     return '删除成功';
   }
-
-  // async addSubcategory(
-  //   categoryId: string,
-  //   subcategoryDto: CreateKnowledgeSubCategoryDto,
-  // ): Promise<KnowledgeCategory> {
-  //   const subcategory = new this.knowledgePointModel(subcategoryDto);
-  //   const category = await this.knowledgeCategoryModel
-  //     .findByIdAndUpdate(
-  //       categoryId,
-  //       {
-  //         $push: { list: subcategory },
-  //       },
-  //       { new: true },
-  //     )
-  //     .exec();
-
-  //   return category;
-  // }
 }

@@ -26,14 +26,16 @@ export class KnowledgeSubCategoryController {
     return this.knowledgePointsService.create(createKnowledgePointDto);
   }
 
-  @Get()
-  findAll() {
-    return this.knowledgePointsService.findAll();
-  }
+  // @Get('list')
+  // findAll() {
+  //   return this.knowledgePointsService.findAll();
+  // }
 
+  @ApiOperation({ summary: '获取合集子类别列表' })
+  @ApiBearerAuth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.knowledgePointsService.findOne(+id);
+  findAll(@Param('id') id: string) {
+    return this.knowledgePointsService.findAll(id);
   }
 
   @Patch(':id')

@@ -16,5 +16,6 @@ import { KnowledgeCategorySchema } from '../knowledge-category/schemas/knowledge
   ],
   controllers: [KnowledgeSubCategoryController],
   providers: [KnowledgeSubCategoryService],
+  exports: [KnowledgeSubCategoryService],
 })
 export class KnowledgeSubCategryModule {}
