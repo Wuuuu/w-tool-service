@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateKnowledgeSubCategoryDto } from './dto/create-subCategory.dto';
 import { UpdateKnowledgeSubCategoryDto } from './dto/update-subCategory.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -32,6 +32,12 @@ export class KnowledgeSubCategoryService {
     //     { new: true },
     //   )
     //   .exec();
+    const existSubCategory = await this.knowledgeSubCategoryModel.findOne({
+      subCategoryName: subcategory.subCategoryName,
+    });
+    if (existSubCategory) {
+      throw new HttpException('子类别已经存在', HttpStatus.BAD_REQUEST);
+    }
     // 将子集类别单独存在knowledge_subCategory表里
     const res = this.knowledgeSubCategoryModel.create(subcategory);
     console.log('res', res);
