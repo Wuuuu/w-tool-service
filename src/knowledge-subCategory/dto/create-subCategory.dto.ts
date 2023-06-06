@@ -9,4 +9,7 @@ export class CreateKnowledgeSubCategoryDto {
   @ApiProperty({ description: '当前合集Id' })
   @IsNotEmpty({ message: '请传入合集Id' })
   categoryId: string;
+
+  @ApiProperty({ description: '子类别内容' })
+  content: string;
 }

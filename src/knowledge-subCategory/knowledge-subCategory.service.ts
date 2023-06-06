@@ -3,11 +3,9 @@ import { CreateKnowledgeSubCategoryDto } from './dto/create-subCategory.dto';
 import { UpdateKnowledgeSubCategoryDto } from './dto/update-subCategory.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import {
-  KnowledgeSubCategory,
-  KnowledgeSubCategoryDocument,
-} from './schamas/knowledge-subCategory.schema';
+import { KnowledgeSubCategory } from './schamas/knowledge-subCategory.schema';
 import { KnowledgeCategoryDocument } from '../knowledge-category/schemas/knowledge-category.schema';
+import { CreateSubCategoryContentDto } from './dto/create-subCategory-content.dto';
 
 @Injectable()
 export class KnowledgeSubCategoryService {
@@ -44,6 +42,34 @@ export class KnowledgeSubCategoryService {
     return '添加成功';
   }
 
+  async createContent(
+    createSubCategoryContentDto: CreateSubCategoryContentDto,
+  ) {
+    const existSubCategoryContent =
+      await this.knowledgeSubCategoryModel.findById({
+        _id: createSubCategoryContentDto.subCategoryId,
+      });
+    const isExist = existSubCategoryContent?.list.some(
+      (item) => item.title === createSubCategoryContentDto.title,
+    );
+    if (isExist) {
+      throw new HttpException('子类别内容已经存在', HttpStatus.BAD_REQUEST);
+    }
+    const res = await this.knowledgeSubCategoryModel
+      .findByIdAndUpdate(
+        createSubCategoryContentDto.subCategoryId,
+        {
+          $push: { list: createSubCategoryContentDto },
+        },
+        { new: true },
+      )
+      .exec();
+    // 将子集类别单独存在knowledge_subCategory表里
+    // const res = this.knowledgeSubCategoryModel.createCollection(subcategory);
+    console.log('res', res);
+    return '添加成功';
+  }
+
   async findAll(id: string) {
     const subCategories = await this.knowledgeSubCategoryModel
       .find({ categoryId: id })
@@ -55,14 +81,23 @@ export class KnowledgeSubCategoryService {
     return 'findOne';
   }
 
-  update(
-    id: number,
+  async update(
+    id: string,
     updateKnowledgeSubCategoryDto: UpdateKnowledgeSubCategoryDto,
   ) {
-    return `This action updates a #${id} knowledgePoint`;
+    const updatedSubCategory = await this.knowledgeSubCategoryModel
+      .findByIdAndUpdate(id, updateKnowledgeSubCategoryDto, { new: true })
+      .exec();
+    console.log('updatedSubCategory:', updatedSubCategory);
+    return updatedSubCategory;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} knowledgePoint`;
+  async remove(id: string) {
+    const exitSubCategoryData =
+      await this.knowledgeSubCategoryModel.findByIdAndRemove({ _id: id });
+    if (!exitSubCategoryData) {
+      throw new HttpException('数据不存在', HttpStatus.BAD_REQUEST);
+    }
+    return '删除成功';
   }
 }
