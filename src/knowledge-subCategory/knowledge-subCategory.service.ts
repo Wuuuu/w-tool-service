@@ -17,27 +17,17 @@ export class KnowledgeSubCategoryService {
   ) {}
 
   async create(createKnowledgeSubCategoryDto: CreateKnowledgeSubCategoryDto) {
-    const { categoryId } = createKnowledgeSubCategoryDto;
-    const subcategory = new this.knowledgeSubCategoryModel(
+    const subCategory = new this.knowledgeSubCategoryModel(
       createKnowledgeSubCategoryDto,
     );
-    // await this.knowledgeCategory
-    //   .findByIdAndUpdate(
-    //     categoryId,
-    //     {
-    //       $push: { subCategories: subcategory },
-    //     },
-    //     { new: true },
-    //   )
-    //   .exec();
     const existSubCategory = await this.knowledgeSubCategoryModel.findOne({
-      subCategoryName: subcategory.subCategoryName,
+      subCategoryName: subCategory.subCategoryName,
     });
     if (existSubCategory) {
       throw new HttpException('子类别已经存在', HttpStatus.BAD_REQUEST);
     }
     // 将子集类别单独存在knowledge_subCategory表里
-    const res = this.knowledgeSubCategoryModel.create(subcategory);
+    const res = await this.knowledgeSubCategoryModel.create(subCategory);
     console.log('res', res);
     return '添加成功';
   }
@@ -71,6 +61,7 @@ export class KnowledgeSubCategoryService {
   }
 
   async findAll(id: string) {
+    console.log('id', id);
     const subCategories = await this.knowledgeSubCategoryModel
       .find({ categoryId: id })
       .exec();
@@ -93,8 +84,21 @@ export class KnowledgeSubCategoryService {
   }
 
   async remove(id: string) {
+    console.log('id', id);
     const exitSubCategoryData =
-      await this.knowledgeSubCategoryModel.findByIdAndRemove({ _id: id });
+      // tips: 当删除id不为_id，是自定义的。 不能使用findByIdxxx
+      await this.knowledgeSubCategoryModel.findOneAndRemove({
+        subCategoryId: id,
+      });
+    if (!exitSubCategoryData) {
+      throw new HttpException('数据不存在', HttpStatus.BAD_REQUEST);
+    }
+    return '删除成功';
+  }
+
+  async removeItem(_id: string) {
+    const exitSubCategoryData =
+      await this.knowledgeSubCategoryModel.findByIdAndRemove({ _id });
     if (!exitSubCategoryData) {
       throw new HttpException('数据不存在', HttpStatus.BAD_REQUEST);
     }

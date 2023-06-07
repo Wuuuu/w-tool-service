@@ -32,7 +32,6 @@ export class KnowledgeCategoryController {
   @ApiOperation({ summary: '新建知识合集类别' })
   @ApiResponse({ status: 201, type: KnowledgeCateGoryInfoDto })
   @ApiBearerAuth()
-  // @Public()
   @Post('create')
   create(@Body() createKnowledgeCategoryDto: CreateKnowledgeCategoryDto) {
     return this.knowledgeCategoryService.create(createKnowledgeCategoryDto);
@@ -69,14 +68,4 @@ export class KnowledgeCategoryController {
   remove(@Param('id') id: string) {
     return this.knowledgeCategoryService.remove(id);
   }
-
-  // @ApiOperation({ summary: '新增合集下知识点' })
-  // @ApiBearerAuth()
-  // @Post('/create/sub-knowledge')
-  // createSubKnowledeg(
-  //   @Body() subKnowledeg: CreateKnowledgeSubCategoryDto,
-  //   @Req() req,
-  // ) {
-  //   console.log('subKnowledeg', subKnowledeg, req);
-  // }
 }

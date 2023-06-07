@@ -7,15 +7,18 @@ import {
 } from './schemas/knowledge-category.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { KnowledgeSubCategory } from 'src/knowledge-subCategory/schamas/knowledge-subCategory.schema';
+import {
+  KnowledgeSubCategory,
+  KnowledgeSubCategoryDocument,
+} from 'src/knowledge-subCategory/schamas/knowledge-subCategory.schema';
 
 @Injectable()
 export class KnowledgeCategoryService {
   constructor(
     @InjectModel('KnowledgeCategory')
-    private readonly knowledgeCategoryModel: Model<KnowledgeCategory>,
+    private readonly knowledgeCategoryModel: Model<KnowledgeCategoryDocument>,
     @InjectModel('KnowledgeSubCategory')
-    private knowledgeSubCategoryModel: Model<KnowledgeSubCategory>,
+    private knowledgeSubCategoryModel: Model<KnowledgeSubCategoryDocument>,
   ) {}
 
   async create(createKnowledgeCategoryDto: CreateKnowledgeCategoryDto) {
@@ -38,11 +41,13 @@ export class KnowledgeCategoryService {
 
     const data = await this.knowledgeCategoryModel
       .find()
-      .select(selectStr)
+      // .select(selectStr)
+      .populate('subCategories')
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
 
+    console.log('data', data);
     const total = await this.knowledgeCategoryModel.countDocuments().exec();
     return {
       data,

@@ -10,8 +10,8 @@ export type KnowledgeCategoryDocument =
   collection: 'knowledge_category',
 })
 export class KnowledgeCategory extends Document {
-  // @Prop({ type: String, unique: true })
-  // id: string;
+  @Prop({ type: 'ObjectId' })
+  _id: string;
 
   @Prop({ maxlength: 50 })
   collectionName: string;
@@ -28,8 +28,12 @@ export class KnowledgeCategory extends Document {
   @Prop()
   likeCount: number;
 
-  @Prop({ type: [Object], ref: 'KnowledgeSubCategory' })
+  // @Prop({ type: [Object], ref: 'KnowledgeSubCategory' })
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'KnowledgeSubCategory' }])
   subCategories: KnowledgeSubCategory[];
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'KnowledgeSubCategory' }])
+  list: mongoose.Types.ObjectId[];
 }
 
 export const KnowledgeCategorySchema =

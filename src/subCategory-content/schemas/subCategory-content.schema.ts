@@ -1,13 +1,14 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { marked } from 'marked';
 import mongoose from 'mongoose';
-import { KnowledgeSubCategory } from './knowledge-subCategory.schema';
+import { KnowledgeSubCategory } from 'src/knowledge-subCategory/schamas/knowledge-subCategory.schema';
 
 export type SubCategoryContentDocument =
   mongoose.HydratedDocument<SubCategoryContent>;
 
 @Schema({
   timestamps: { createdAt: 'createdTime', updatedAt: 'updatedTime' },
+  collection: 'subCategory-content',
 })
 export class SubCategoryContent {
   @Prop({ maxlength: 50 })
@@ -16,8 +17,8 @@ export class SubCategoryContent {
   @Prop()
   likeCount: number;
 
-  @Prop({ type: 'ObjectId', ref: 'KnowledgeSubCategory' })
-  subCategoryId: KnowledgeSubCategory['_id'];
+  // @Prop({ type: 'ObjectId', ref: 'KnowledgeSubCategory' })
+  // subCategoryId: KnowledgeSubCategory['_id'];
 
   // 存储 Markdown 文本
   @Prop()

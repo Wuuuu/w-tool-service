@@ -17,14 +17,14 @@ import { CreateSubCategoryContentDto } from './dto/create-subCategory-content.dt
 @Controller('knowledge-subCategory')
 export class KnowledgeSubCategoryController {
   constructor(
-    private readonly knowledgePointsService: KnowledgeSubCategoryService,
+    private readonly knowledgeSubCategoryService: KnowledgeSubCategoryService,
   ) {}
 
   @ApiOperation({ summary: '新增合集子类别' })
   @ApiBearerAuth()
   @Post('create')
   create(@Body() createKnowledgePointDto: CreateKnowledgeSubCategoryDto) {
-    return this.knowledgePointsService.create(createKnowledgePointDto);
+    return this.knowledgeSubCategoryService.create(createKnowledgePointDto);
   }
 
   @ApiOperation({ summary: '新增合集子类别内容' })
@@ -33,21 +33,21 @@ export class KnowledgeSubCategoryController {
   createContent(
     @Body() createSubCategoryContentDto: CreateSubCategoryContentDto,
   ) {
-    return this.knowledgePointsService.createContent(
+    return this.knowledgeSubCategoryService.createContent(
       createSubCategoryContentDto,
     );
   }
 
   // @Get('list')
   // findAll() {
-  //   return this.knowledgePointsService.findAll();
+  //   return this.knowledgeSubCategoryService.findAll();
   // }
 
   @ApiOperation({ summary: '获取合集子类别列表' })
   @ApiBearerAuth()
   @Get(':id')
   findAll(@Param('id') id: string) {
-    return this.knowledgePointsService.findAll(id);
+    return this.knowledgeSubCategoryService.findAll(id);
   }
 
   @ApiOperation({ summary: '更新合集子类别内容' })
@@ -57,13 +57,20 @@ export class KnowledgeSubCategoryController {
     @Param('id') id: string,
     @Body() updateKnowledgePointDto: UpdateKnowledgeSubCategoryDto,
   ) {
-    return this.knowledgePointsService.update(id, updateKnowledgePointDto);
+    return this.knowledgeSubCategoryService.update(id, updateKnowledgePointDto);
   }
 
   @ApiOperation({ summary: '删除指定合集子类别' })
   @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.knowledgePointsService.remove(id);
+    return this.knowledgeSubCategoryService.remove(id);
   }
+
+  // @ApiOperation({ summary: '删除指定合集子类别' })
+  // @ApiBearerAuth()
+  // @Delete('content-item/:id')
+  // removeItem(@Param('id') id: string) {
+  //   return this.knowledgeSubCategoryService.remove(id);
+  // }
 }
