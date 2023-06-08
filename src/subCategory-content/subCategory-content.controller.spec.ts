@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SubCategoryContentController } from './sub-category-content.controller';
-import { SubCategoryContentService } from './sub-category-content.service';
+import { SubCategoryContentController } from './subCategory-content.controller';
+import { SubCategoryContentService } from './subCategory-content.service';
 
 describe('SubCategoryContentController', () => {
   let controller: SubCategoryContentController;
@@ -11,7 +11,9 @@ describe('SubCategoryContentController', () => {
       providers: [SubCategoryContentService],
     }).compile();
 
-    controller = module.get<SubCategoryContentController>(SubCategoryContentController);
+    controller = module.get<SubCategoryContentController>(
+      SubCategoryContentController,
+    );
   });
 
   it('should be defined', () => {

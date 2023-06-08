@@ -10,7 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import {
   KnowledgeSubCategory,
   KnowledgeSubCategoryDocument,
-} from 'src/knowledge-subCategory/schamas/knowledge-subCategory.schema';
+} from 'src/knowledge-subCategory/schemas/knowledge-subCategory.schema';
 
 @Injectable()
 export class KnowledgeCategoryService {

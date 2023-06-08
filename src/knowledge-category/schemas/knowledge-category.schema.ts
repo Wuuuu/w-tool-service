@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { KnowledgeSubCategory } from '../../knowledge-subCategory/schamas/knowledge-subCategory.schema';
+import { KnowledgeSubCategory } from '../../knowledge-subCategory/schemas/knowledge-subCategory.schema';
 
 export type KnowledgeCategoryDocument =
   mongoose.HydratedDocument<KnowledgeCategory>;
@@ -31,9 +31,6 @@ export class KnowledgeCategory extends Document {
   // @Prop({ type: [Object], ref: 'KnowledgeSubCategory' })
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'KnowledgeSubCategory' }])
   subCategories: KnowledgeSubCategory[];
-
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'KnowledgeSubCategory' }])
-  list: mongoose.Types.ObjectId[];
 }
 
 export const KnowledgeCategorySchema =

@@ -6,8 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KnowledgeCategoryModule } from './knowledge-category/knowledge-category.module';
 import { KnowledgeSubCategryModule } from './knowledge-subCategory/knowledge-subCategory.module';
+import { SubCategoryContentModule } from './subCategory-content/subCategory-content.module';
 import { UploadModule } from './upload/upload.module';
-import { SubCategoryContentModule } from './subCategory-content/sub-category-content.module';
 
 @Module({
   imports: [

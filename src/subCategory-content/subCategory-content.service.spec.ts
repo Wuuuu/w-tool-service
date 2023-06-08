@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SubCategoryContentService } from './sub-category-content.service';
+import { SubCategoryContentService } from './subCategory-content.service';
 
 describe('SubCategoryContentService', () => {
   let service: SubCategoryContentService;

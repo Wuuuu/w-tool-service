@@ -3,7 +3,7 @@ import { KnowledgeCategoryService } from './knowledge-category.service';
 import { KnowledgeCategoryController } from './knowledge-category.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { KnowledgeCategorySchema } from './schemas/knowledge-category.schema';
-import { KnowledgeSubCategorySchema } from '../knowledge-subCategory/schamas/knowledge-subCategory.schema';
+import { KnowledgeSubCategorySchema } from '../knowledge-subCategory/schemas/knowledge-subCategory.schema';
 
 @Module({
   imports: [

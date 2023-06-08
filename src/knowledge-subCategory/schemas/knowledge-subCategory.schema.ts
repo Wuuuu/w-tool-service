@@ -9,7 +9,6 @@ export type KnowledgeSubCategoryDocument =
 @Schema({
   timestamps: { createdAt: 'createdTime', updatedAt: 'updatedTime' },
   versionKey: false,
-  // _id: false,
   collection: 'knowledge_subCategory',
 })
 export class KnowledgeSubCategory {
@@ -19,15 +18,17 @@ export class KnowledgeSubCategory {
   @Prop({ maxlength: 30 })
   subCategoryName: string;
 
-  @Prop({ type: 'ObjectId', ref: 'KnowledgeCategory' })
+  @Prop({ type: 'ObjectId', ref: 'SubCategoryContent' })
   categoryId: KnowledgeCategory['_id'];
 
-  // 存储 Markdown 文本
-  @Prop()
-  list: SubCategoryContent[];
+  @Prop({ type: 'String', ref: 'KnowledgeCategory' })
+  data: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'KnowledgeCategory' })
-  parentId: mongoose.Types.ObjectId;
+  @Prop({ ref: 'SubCategoryContent' })
+  sTitle: string;
+
+  @Prop([{ type: mongoose.Types.ObjectId, ref: 'SubCategoryContent' }])
+  list: SubCategoryContent[];
 }
 
 export const KnowledgeSubCategorySchema =

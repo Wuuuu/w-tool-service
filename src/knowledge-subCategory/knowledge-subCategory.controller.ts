@@ -11,7 +11,6 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { KnowledgeSubCategoryService } from './knowledge-subCategory.service';
 import { CreateKnowledgeSubCategoryDto } from './dto/create-subCategory.dto';
 import { UpdateKnowledgeSubCategoryDto } from './dto/update-subCategory.dto';
-import { CreateSubCategoryContentDto } from './dto/create-subCategory-content.dto';
 
 @ApiTags('知识合集子类别')
 @Controller('knowledge-subCategory')
@@ -27,16 +26,16 @@ export class KnowledgeSubCategoryController {
     return this.knowledgeSubCategoryService.create(createKnowledgePointDto);
   }
 
-  @ApiOperation({ summary: '新增合集子类别内容' })
-  @ApiBearerAuth()
-  @Post('create-content')
-  createContent(
-    @Body() createSubCategoryContentDto: CreateSubCategoryContentDto,
-  ) {
-    return this.knowledgeSubCategoryService.createContent(
-      createSubCategoryContentDto,
-    );
-  }
+  // @ApiOperation({ summary: '新增合集子类别内容' })
+  // @ApiBearerAuth()
+  // @Post('create-content')
+  // createContent(
+  //   @Body() createSubCategoryContentDto: CreateSubCategoryContentDto,
+  // ) {
+  //   return this.knowledgeSubCategoryService.createContent(
+  //     createSubCategoryContentDto,
+  //   );
+  // }
 
   // @Get('list')
   // findAll() {
@@ -45,9 +44,9 @@ export class KnowledgeSubCategoryController {
 
   @ApiOperation({ summary: '获取合集子类别列表' })
   @ApiBearerAuth()
-  @Get(':id')
+  @Get()
   findAll(@Param('id') id: string) {
-    return this.knowledgeSubCategoryService.findAll(id);
+    return this.knowledgeSubCategoryService.findAll();
   }
 
   @ApiOperation({ summary: '更新合集子类别内容' })

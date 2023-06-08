@@ -3,9 +3,8 @@ import { CreateKnowledgeSubCategoryDto } from './dto/create-subCategory.dto';
 import { UpdateKnowledgeSubCategoryDto } from './dto/update-subCategory.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { KnowledgeSubCategory } from './schamas/knowledge-subCategory.schema';
+import { KnowledgeSubCategory } from './schemas/knowledge-subCategory.schema';
 import { KnowledgeCategoryDocument } from '../knowledge-category/schemas/knowledge-category.schema';
-import { CreateSubCategoryContentDto } from './dto/create-subCategory-content.dto';
 
 @Injectable()
 export class KnowledgeSubCategoryService {
@@ -26,45 +25,16 @@ export class KnowledgeSubCategoryService {
     if (existSubCategory) {
       throw new HttpException('子类别已经存在', HttpStatus.BAD_REQUEST);
     }
-    // 将子集类别单独存在knowledge_subCategory表里
-    const res = await this.knowledgeSubCategoryModel.create(subCategory);
-    console.log('res', res);
+    await this.knowledgeSubCategoryModel.create(subCategory);
     return '添加成功';
   }
 
-  async createContent(
-    createSubCategoryContentDto: CreateSubCategoryContentDto,
-  ) {
-    const existSubCategoryContent =
-      await this.knowledgeSubCategoryModel.findById({
-        _id: createSubCategoryContentDto.subCategoryId,
-      });
-    const isExist = existSubCategoryContent?.list.some(
-      (item) => item.title === createSubCategoryContentDto.title,
-    );
-    if (isExist) {
-      throw new HttpException('子类别内容已经存在', HttpStatus.BAD_REQUEST);
-    }
-    const res = await this.knowledgeSubCategoryModel
-      .findByIdAndUpdate(
-        createSubCategoryContentDto.subCategoryId,
-        {
-          $push: { list: createSubCategoryContentDto },
-        },
-        { new: true },
-      )
-      .exec();
-    // 将子集类别单独存在knowledge_subCategory表里
-    // const res = this.knowledgeSubCategoryModel.createCollection(subcategory);
-    console.log('res', res);
-    return '添加成功';
-  }
-
-  async findAll(id: string) {
-    console.log('id', id);
+  async findAll() {
     const subCategories = await this.knowledgeSubCategoryModel
-      .find({ categoryId: id })
+      .find()
+      .populate('list', {})
       .exec();
+    console.log(subCategories);
     return subCategories;
   }
 
@@ -105,3 +75,19 @@ export class KnowledgeSubCategoryService {
     return '删除成功';
   }
 }
+
+// const Category = mongoose.model('Category', mongoose.Schema({
+//   name: String,
+//   id: String,
+//   list: [{
+//     type: mongoose.ObjectId,
+//     ref: 'SubCategory'
+//   }]
+// }))
+
+// // ref 告诉 Mongoose Populate 要查询的模型
+// const SubCategory = mongoose.model('subCategory', mongoose.Schema({
+//   title: String,
+//   categoryId: Category['id'],
+//   subCategoryId: String,
+// }))
