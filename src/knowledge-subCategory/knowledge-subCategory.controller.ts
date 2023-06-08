@@ -44,9 +44,9 @@ export class KnowledgeSubCategoryController {
 
   @ApiOperation({ summary: '获取合集子类别列表' })
   @ApiBearerAuth()
-  @Get()
+  @Get(':id')
   findAll(@Param('id') id: string) {
-    return this.knowledgeSubCategoryService.findAll();
+    return this.knowledgeSubCategoryService.findAll(id);
   }
 
   @ApiOperation({ summary: '更新合集子类别内容' })

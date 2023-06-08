@@ -18,16 +18,10 @@ export class KnowledgeSubCategory {
   @Prop({ maxlength: 30 })
   subCategoryName: string;
 
-  @Prop({ type: 'ObjectId', ref: 'SubCategoryContent' })
+  @Prop({ type: 'ObjectId', ref: 'KnowledgeCategory' })
   categoryId: KnowledgeCategory['_id'];
 
-  @Prop({ type: 'String', ref: 'KnowledgeCategory' })
-  data: string;
-
-  @Prop({ ref: 'SubCategoryContent' })
-  sTitle: string;
-
-  @Prop([{ type: mongoose.Types.ObjectId, ref: 'SubCategoryContent' }])
+  @Prop([{ type: 'ObjectId', ref: 'SubCategoryContent' }])
   list: SubCategoryContent[];
 }
 

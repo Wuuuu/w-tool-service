@@ -2,15 +2,15 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateKnowledgeSubCategoryDto } from './dto/create-subCategory.dto';
 import { UpdateKnowledgeSubCategoryDto } from './dto/update-subCategory.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { KnowledgeSubCategory } from './schemas/knowledge-subCategory.schema';
+import mongoose, { Model } from 'mongoose';
+import { KnowledgeSubCategoryDocument } from './schemas/knowledge-subCategory.schema';
 import { KnowledgeCategoryDocument } from '../knowledge-category/schemas/knowledge-category.schema';
 
 @Injectable()
 export class KnowledgeSubCategoryService {
   constructor(
     @InjectModel('KnowledgeSubCategory')
-    private readonly knowledgeSubCategoryModel: Model<KnowledgeSubCategory>,
+    private readonly knowledgeSubCategoryModel: Model<KnowledgeSubCategoryDocument>,
     @InjectModel('KnowledgeCategory')
     private readonly knowledgeCategory: Model<KnowledgeCategoryDocument>,
   ) {}
@@ -29,13 +29,29 @@ export class KnowledgeSubCategoryService {
     return '添加成功';
   }
 
-  async findAll() {
-    const subCategories = await this.knowledgeSubCategoryModel
-      .find()
-      .populate('list', {})
-      .exec();
-    console.log(subCategories);
-    return subCategories;
+  async findAll(id: string) {
+    // TODO: 由于使用find+populate list一直关联不到数据，则使用aggregate语法实现。后期需优化
+    // const subCategoriesList = await this.knowledgeSubCategoryModel
+    //   .find({
+    //     categoryId: id,
+    //   })
+    //   .exec();
+    const subCategoriesList = await this.knowledgeSubCategoryModel.aggregate([
+      {
+        $lookup: {
+          from: 'subCategory-content',
+          localField: 'subCategoryId',
+          foreignField: 'subCategoryId',
+          as: 'list',
+        },
+      },
+      {
+        $match: {
+          categoryId: new mongoose.Types.ObjectId(id),
+        },
+      },
+    ]);
+    return subCategoriesList;
   }
 
   findOne() {
