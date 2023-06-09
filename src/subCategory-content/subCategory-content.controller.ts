@@ -44,7 +44,7 @@ export class SubCategoryContentController {
     @Body() updateSubCategoryContentDto: UpdateSubCategoryContentDto,
   ) {
     return this.subCategoryContentService.update(
-      +id,
+      id,
       updateSubCategoryContentDto,
     );
   }

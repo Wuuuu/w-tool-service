@@ -35,8 +35,20 @@ export class SubCategoryContentService {
     return `This action returns a #${id} subCategoryContent`;
   }
 
-  update(id: number, updateSubCategoryContentDto: UpdateSubCategoryContentDto) {
-    return `This action updates a #${id} subCategoryContent`;
+  async update(
+    id: string,
+    updateSubCategoryContentDto: UpdateSubCategoryContentDto,
+  ) {
+    const res = await this.subCategoryContentModel
+      .findByIdAndUpdate(
+        id,
+        {
+          $set: updateSubCategoryContentDto,
+        },
+        { new: true },
+      )
+      .exec();
+    return '更新成功';
   }
 
   remove(id: number) {
