@@ -11,6 +11,6 @@ export class CreateUserDto {
   @IsNotEmpty({ message: '请输入密码' })
   password: string;
 
-  @ApiProperty({ description: '用户角色' })
-  readonly access: string;
+  // @ApiProperty({ description: '用户角色' })
+  // readonly access: string;
 }
