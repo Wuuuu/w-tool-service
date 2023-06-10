@@ -47,7 +47,7 @@ export class KnowledgeSubCategoryService {
       },
       {
         $match: {
-          categoryId: new mongoose.Types.ObjectId(id),
+          categoryId: new (mongoose.Types.ObjectId as any)(id),
         },
       },
     ]);
@@ -70,7 +70,6 @@ export class KnowledgeSubCategoryService {
   }
 
   async remove(id: string) {
-    console.log('id', id);
     const exitSubCategoryData =
       // tips: 当删除id不为_id，是自定义的。 不能使用findByIdxxx
       await this.knowledgeSubCategoryModel.findOneAndRemove({
