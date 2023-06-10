@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import * as COS from 'cos-nodejs-sdk-v5';
 import * as fs from 'fs';
 import * as path from 'path';
-
 @Injectable()
 export class UploadService {
   private cos: COS;

@@ -23,10 +23,6 @@ export class UserService {
     return createUser;
   }
 
-  // async findAll(createUserDto: CreateUserDto) {
-  //   return `This action returns all user`;
-  // }
-
   async findOne(id: string): Promise<User> {
     return await this.userModel.findOne({ _id: id }).exec();
   }
@@ -35,11 +31,12 @@ export class UserService {
     const userInfo = await this.userModel.findOne({ username }).exec();
     return userInfo;
   }
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} user`;
+  }
 }
