@@ -11,6 +11,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  REGISTRY: wswyk # Docker 镜像仓库地址
+  IMAGE_NAME: w-tool-service # Docker 镜像名称
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains multiple jobs
@@ -72,13 +76,13 @@ jobs:
     needs: [build]
 
     steps:
-      - name: checkout repo
+      - name: 检查仓库
         uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Login to DockerHub
+      - name: 登录DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -90,11 +94,26 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/w-tool-service:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            VERSION=latest
 
-      - name: Run the image in a container
-        uses: addnab/docker-run-action@v3
+      - name: SSH 进入服务器并部署
+        uses: appleboy/ssh-action@master
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/w-tool-service:latest
-          run: |
-            docker run -d --name my-project -p 3000:80 ${{ secrets.DOCKERHUB_USERNAME }}/w-tool-service
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          script: |
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} ${{ env.REGISTRY }}
+            sudo docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            sudo docker-compose down
+            sudo docker-compose up -d
+
+      # - name: Run the image in a container
+      #   uses: addnab/docker-run-action@v3
+      #   with:
+      #     image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      #     run: |
+      #       docker run -d --name my-project -p 3000:80 ${{ env.IMAGE_NAME }}/w-tool-service
