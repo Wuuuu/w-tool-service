@@ -106,14 +106,14 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: 22
           script: |
-            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} ${{ env.REGISTRY }}
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             sudo docker-compose down
             sudo docker-compose up -d
 
-      # - name: Run the image in a container
-      #   uses: addnab/docker-run-action@v3
-      #   with:
-      #     image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-      #     run: |
-      #       docker run -d --name my-project -p 3000:80 ${{ env.IMAGE_NAME }}/w-tool-service
+      - name: 运行${{ env.IMAGE_NAME }}服务
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          run: |
+            docker run -d --name w-tool -p 3000:3000 ${{ env.IMAGE_NAME }}/w-tool-service
