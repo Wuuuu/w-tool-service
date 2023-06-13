@@ -47,11 +47,11 @@ COPY --chown=node:node pnpm-lock.yaml ./
 
 # COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 
+RUN pnpm install --prod
+
 RUN pnpm build
 
 ENV NODE_ENV production
-
-RUN pnpm install --prod
 
 USER node
 
