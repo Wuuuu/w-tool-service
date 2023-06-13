@@ -1,26 +1,40 @@
-# 使用 Node.js 14.x 运行时作为基础镜像
-FROM node:18-alpine
+FROM node:18 as builder
+
+# 读取环境变量
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+
+# 设置环境变量
+ENV MONGODB_DATABASE_URL ${MONGODB_DATABASE_URL}
+ENV JWT_SECRET ${JWT_SECRET}
+ENV COS_SECRET_ID ${COS_SECRET_ID}
+ENV COS_SECRET_KEY ${COS_SECRET_KEY}
+ENV COS_REGION ${COS_REGION}
+ENV COS_BUCKET_NAME ${COS_BUCKET_NAME}
+
+WORKDIR /usr/src/node-services
+
+COPY --chown=node:node pnpm-lock.yaml ./
+
+COPY . /usr/src/node-services
 
 RUN npm install -g pnpm
 
-# 在容器中创建一个新的目录，用于存放应用程序文件
-WORKDIR /usr/src/app
+RUN pnpm install \
+  && pnpm run build \
+  && pnpm fetch --prod
 
-# 将 package.json 和 lock 文件添加到镜像中
-COPY --chown=node:node pnpm-lock.yaml ./
+# ---
 
-RUN pnpm fetch --prod
+FROM node:18
 
-COPY --chown=node:node . .
-
-RUN pnpm install
+ENV NODE_ENV production
 
 USER node
+WORKDIR /usr/src/node-services
 
+COPY --from=builder /usr/src/node-services/pnpm-lock.yaml /usr/src/node-services
+COPY --from=builder /usr/src/node-services/node_modules/ /usr/src/node-services/node_modules/
+COPY --from=builder /usr/src/node-services/dist/ /usr/src/node-services/dist/
 
-# 暴露应用程序端口
-# EXPOSE 3000
-
-# 启动应用程序
-# CMD [ "npm", "start" ]
-CMD [ "node", "dist/main.js" ]
+CMD ["node", "dist/main.js"]

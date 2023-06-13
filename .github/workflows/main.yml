@@ -63,10 +63,10 @@ jobs:
         with:
           name: artifact
           path: dist
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
-          publish_dir: ./dist
+      # - uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.ACCESS_TOKEN }}
+      #     publish_dir: ./dist
 
   push_to_Docker_Hub:
     # The type of runner that the job will run on
@@ -108,12 +108,9 @@ jobs:
           script: |
             sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             sudo docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            sudo docker-compose down
-            sudo docker-compose up -d
 
       - name: 运行${{ env.IMAGE_NAME }}服务
         uses: addnab/docker-run-action@v3
         with:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          run: |
-            docker run -d --name w-tool -p 3000:3000 ${{ env.IMAGE_NAME }}/w-tool-service
+          run: docker run --name w-tool -it -d -p 3000:3000 wswyk/w-tool-service
