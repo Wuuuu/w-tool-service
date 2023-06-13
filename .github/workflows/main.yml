@@ -113,4 +113,5 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          run: docker run --name w-tool -it -d -p 3000:3000 wswyk/w-tool-service
+          script: |
+            docker run --name w-tool -it -d -p 3000:3000 wswyk/w-tool-service
