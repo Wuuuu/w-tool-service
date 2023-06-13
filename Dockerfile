@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 # 将 package.json 和 lock 文件添加到镜像中
 COPY pnpm-lock.yaml ./
 
+RUN npm install -g pnpm
 # 安装应用程序依赖项
 RUN pnpm install 
 
