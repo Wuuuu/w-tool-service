@@ -6,17 +6,21 @@
 FROM node:18 As development
 RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
+# 读取环境变量
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+
+# 设置环境变量
+ENV MONGODB_DATABASE_URL ${MONGODB_DATABASE_URL}
+ENV JWT_SECRET ${JWT_SECRET}
+ENV COS_SECRET_ID ${COS_SECRET_ID}
+ENV COS_SECRET_KEY ${COS_SECRET_KEY}
+ENV COS_REGION ${COS_REGION}
+ENV COS_BUCKET_NAME ${COS_BUCKET_NAME}
 
 WORKDIR /usr/src/app
 
 COPY --chown=node:node pnpm-lock.yaml ./
-
-ENV MONGODB_DATABASE_URL='mongodb+srv://maxeyWu:wswyk@cluster0.06knjy2.mongodb.net/?retryWrites=true&w=majority' 
-ENV JWT_SECRET='w-tool-secret' 
-ENV COS_SECRET_ID='AKIDoUvysXXhNp2Yw7yuidIPr5DwYxDHpfql' 
-ENV COS_SECRET_KEY='uYx6yJjGXYpshHtHC7sDH6g69RUnzXx9' 
-ENV COS_REGION='ap-chengdu' 
-ENV COS_BUCKET_NAME='w-tool-1256299075'
 
 RUN pnpm fetch --prod
 
@@ -40,11 +44,11 @@ COPY --chown=node:node pnpm-lock.yaml ./
 
 COPY --chown=node:node . .
 
-RUN pnpm build
-
 ENV NODE_ENV production
 
 RUN pnpm install --prod
+
+RUN pnpm build
 
 USER node
 
