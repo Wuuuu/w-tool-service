@@ -6,19 +6,20 @@ RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 WORKDIR /usr/src/app
 
 # 将 package.json 和 lock 文件添加到镜像中
-COPY pnpm-lock.yaml ./
+COPY --chown=node:node pnpm-lock.yaml ./
 
-RUN npm install -g pnpm
-# 安装应用程序依赖项
-RUN pnpm install 
+RUN pnpm fetch --prod
 
-RUN pnpm build
+COPY --chown=node:node . .
 
-# 将应用程序代码复制到容器中
-COPY . .
+RUN pnpm install
+
+USER node
+
 
 # 暴露应用程序端口
-EXPOSE 3000
+# EXPOSE 3000
 
 # 启动应用程序
-CMD [ "npm", "start" ]
+# CMD [ "npm", "start" ]
+CMD [ "node", "dist/main.js" ]
