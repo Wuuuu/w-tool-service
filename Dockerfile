@@ -39,19 +39,19 @@ USER node
 ###################
 
 FROM node:18 As build
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
-
 WORKDIR /usr/src/app
 
 COPY --chown=node:node pnpm-lock.yaml ./
 
-# COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 
-RUN pnpm install --prod
+COPY --chown=node:node . .
 
 RUN pnpm build
 
 ENV NODE_ENV production
+
+RUN pnpm install --prod
 
 USER node
 
