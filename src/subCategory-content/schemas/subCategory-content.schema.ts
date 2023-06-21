@@ -7,7 +7,7 @@ export type SubCategoryContentDocument =
 
 @Schema({
   timestamps: { createdAt: 'createdTime', updatedAt: 'updatedTime' },
-  collection: 'subCategory-content',
+  collection: 'subCategory_content',
   versionKey: false,
 })
 export class SubCategoryContent {
