@@ -26,7 +26,7 @@ export class AuthService {
     if (!passwordMatched) {
       throw new BadRequestException('密码错误！');
     }
-    const payload = { username: user.username, sub: user.id };
+    const payload = { username: user.username, sub: user._id };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

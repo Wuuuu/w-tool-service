@@ -16,7 +16,7 @@ import { UserSchema } from '../user/schemas/user.schema';
 const jwtModule = JwtModule.registerAsync({
   inject: [ConfigService],
   useFactory: async (configService: ConfigService) => ({
-    // global: true,
+    global: true,
     secret: configService.get('JWT_SECRET'),
     signOptions: { expiresIn: '4h' },
   }),

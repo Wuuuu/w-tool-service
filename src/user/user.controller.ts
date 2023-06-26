@@ -35,7 +35,6 @@ export class UserController {
   @ApiOperation({ summary: '用户注册' })
   @ApiResponse({ status: 201, type: UserInfoDto })
   @Public()
-  // @UseInterceptors(ClassSerializerInterceptor) // 过滤掉接口返回的某个字段，配合Exclude()使用
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
     return this.userService.register(createUserDto);
@@ -43,7 +42,8 @@ export class UserController {
 
   @ApiOperation({ summary: '获取用户信息' })
   @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(ClassSerializerInterceptor) // 过滤掉接口返回的某个字段，配合Exclude()使用
+  // @UseGuards(AuthGuard('jwt'))
   @Get('info')
   async getUserInfo(@Req() req) {
     return req.user;

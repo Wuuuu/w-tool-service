@@ -8,7 +8,6 @@ import { KnowledgeCategoryModule } from './knowledge-category/knowledge-category
 import { KnowledgeSubCategryModule } from './knowledge-subCategory/knowledge-subCategory.module';
 import { SubCategoryContentModule } from './subCategory-content/subCategory-content.module';
 import { UploadModule } from './upload/upload.module';
-import { TestModule } from './test/test.module';
 
 @Module({
   imports: [
@@ -26,7 +25,6 @@ import { TestModule } from './test/test.module';
     KnowledgeSubCategryModule,
     SubCategoryContentModule,
     UploadModule,
-    TestModule,
   ],
   controllers: [],
   providers: [],
