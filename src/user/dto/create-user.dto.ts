@@ -13,4 +13,8 @@ export class CreateUserDto {
 
   // @ApiProperty({ description: '用户角色' })
   // readonly access: string;
+
+  @ApiProperty({ description: '邮箱' })
+  @IsNotEmpty({ message: '请输入邮箱' })
+  email: string;
 }

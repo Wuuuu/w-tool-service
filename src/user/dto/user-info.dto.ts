@@ -10,7 +10,7 @@ export class UserInfoDto {
   readonly nickname: string;
 
   @ApiProperty({ description: '用户头像' })
-  readonly avatar: string;
+  readonly avatarUrl: string;
 
   @ApiProperty({ description: '用户角色' })
   readonly access: string;

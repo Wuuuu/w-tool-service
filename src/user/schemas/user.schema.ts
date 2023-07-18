@@ -7,6 +7,7 @@ export type UserDocument = mongoose.HydratedDocument<User>;
 
 @Schema({
   timestamps: { createdAt: 'created_time', updatedAt: 'updated_time' },
+  collection: 'User',
 }) // timestamps: true Mongoose会自动生成createdAt、updatedAt两个字段, 并将两个字段自定义名字
 export class User {
   @Prop()
@@ -23,9 +24,9 @@ export class User {
   password: string;
 
   @Prop()
-  avatar: string;
+  avatarUrl: string;
 
-  @Prop()
+  @Prop({ nullable: true })
   email: string;
 
   @Prop()
