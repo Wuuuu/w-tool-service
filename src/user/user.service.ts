@@ -20,7 +20,9 @@ export class UserService {
       throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST);
     }
     const createUser = await this.userModel.create(createUserDto);
-    return createUser;
+    const userWithoutPassword = createUser.toObject();
+    Reflect.deleteProperty(userWithoutPassword, 'password');
+    return userWithoutPassword;
   }
 
   async findOne(id: string): Promise<User> {

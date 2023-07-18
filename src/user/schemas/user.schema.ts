@@ -7,7 +7,7 @@ export type UserDocument = mongoose.HydratedDocument<User>;
 
 @Schema({
   timestamps: { createdAt: 'created_time', updatedAt: 'updated_time' },
-  collection: 'User',
+  collection: 'Users',
 }) // timestamps: true Mongoose会自动生成createdAt、updatedAt两个字段, 并将两个字段自定义名字
 export class User {
   @Prop()
@@ -22,6 +22,9 @@ export class User {
   @Exclude()
   @Prop()
   password: string;
+
+  @Prop()
+  hashedPassword: string;
 
   @Prop()
   avatarUrl: string;
@@ -44,6 +47,9 @@ export const UserSchema = SchemaFactory.createForClass(User);
 
 // 在调用create时，给password加密
 UserSchema.pre('save', function (next) {
-  if (this.password) this.password = bcrypt.hashSync(this.password, 10);
+  if (this.password) {
+    // this.password = bcrypt.hashSync(this.password, 10);
+    this.hashedPassword = bcrypt.hashSync(this.password, 10);
+  }
   next();
 });

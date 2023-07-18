@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Version,
   Req,
   UseInterceptors,
   ClassSerializerInterceptor,
