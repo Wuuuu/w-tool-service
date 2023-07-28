@@ -8,6 +8,7 @@ import { KnowledgeCategoryModule } from './knowledge-category/knowledge-category
 import { KnowledgeSubCategryModule } from './knowledge-subCategory/knowledge-subCategory.module';
 import { SubCategoryContentModule } from './subCategory-content/subCategory-content.module';
 import { UploadModule } from './upload/upload.module';
+import { CollectionTypeModule } from './collection-type/collection-type.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UploadModule } from './upload/upload.module';
     KnowledgeCategoryModule,
     KnowledgeSubCategryModule,
     SubCategoryContentModule,
+    CollectionTypeModule,
     UploadModule,
   ],
   controllers: [],

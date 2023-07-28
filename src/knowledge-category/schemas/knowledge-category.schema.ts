@@ -17,6 +17,9 @@ export class KnowledgeCategory extends Document {
   collectionName: string;
 
   @Prop()
+  collectionType: string;
+
+  @Prop()
   coverUrl: string;
 
   @Prop({ Type: String })

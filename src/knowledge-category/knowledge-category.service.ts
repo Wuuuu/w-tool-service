@@ -35,19 +35,18 @@ export class KnowledgeCategoryService {
     return createCollection;
   }
 
-  async findAll(page: number, limit: number) {
+  async findAllByPage(page: number, limit: number) {
     const selectStr =
       'collectionName coverUrl createdTime updatedTime likeCount summary _id';
 
     const data = await this.knowledgeCategoryModel
       .find()
-      // .select(selectStr)
+      .select(selectStr)
       .populate('subCategories')
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
 
-    console.log('data', data);
     const total = await this.knowledgeCategoryModel.countDocuments().exec();
     return {
       data,
@@ -55,6 +54,11 @@ export class KnowledgeCategoryService {
       pageSize: limit,
       total,
     };
+  }
+
+  async findAll() {
+    const data = await this.knowledgeCategoryModel.find().exec();
+    return data;
   }
 
   findOne(id: number) {

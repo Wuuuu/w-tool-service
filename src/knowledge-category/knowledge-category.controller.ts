@@ -20,6 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Public } from '../auth/decorators/public.decorator';
 // import { CreateKnowledgeSubCategoryDto } from '../knowledge-subCategory/dto/create-subCategory.dto';
 
 @ApiTags('知识集合类别')
@@ -37,14 +38,23 @@ export class KnowledgeCategoryController {
     return this.knowledgeCategoryService.create(createKnowledgeCategoryDto);
   }
 
+  @ApiOperation({ summary: '知识所有合集 分页' })
+  @Public()
+  @ApiBearerAuth() // 在API接口中使用Bearer Token进行身份验证
+  @Get('list-page')
+  findAllByPage(
+    @Query('pageSize') pageSize: number = 10,
+    @Query('current') current: number = 1,
+  ) {
+    return this.knowledgeCategoryService.findAllByPage(current, pageSize);
+  }
+
   @ApiOperation({ summary: '知识所有合集' })
+  @Public()
   @ApiBearerAuth() // 在API接口中使用Bearer Token进行身份验证
   @Get('list')
-  findAll(
-    @Query('current') current: number = 1,
-    @Query('pageSize') pageSize: number = 10,
-  ) {
-    return this.knowledgeCategoryService.findAll(current, pageSize);
+  findAll() {
+    return this.knowledgeCategoryService.findAll();
   }
 
   @Get(':id')
