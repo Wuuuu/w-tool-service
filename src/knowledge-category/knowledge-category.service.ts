@@ -37,7 +37,7 @@ export class KnowledgeCategoryService {
 
   async findAllByPage(page: number, limit: number) {
     const selectStr =
-      'collectionName coverUrl createdTime updatedTime likeCount summary _id';
+      'collectionName collectionType coverUrl createdTime updatedTime likeCount summary _id';
 
     const data = await this.knowledgeCategoryModel
       .find()

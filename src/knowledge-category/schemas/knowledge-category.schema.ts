@@ -10,8 +10,8 @@ export type KnowledgeCategoryDocument =
   collection: 'knowledge_category',
 })
 export class KnowledgeCategory extends Document {
-  @Prop({ type: 'ObjectId' })
-  _id: string;
+  // @Prop({ type: 'ObjectId' })
+  // _id: string;
 
   @Prop({ maxlength: 50 })
   collectionName: string;
