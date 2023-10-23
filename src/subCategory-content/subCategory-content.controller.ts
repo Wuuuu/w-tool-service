@@ -26,9 +26,10 @@ export class SubCategoryContentController {
     return this.subCategoryContentService.create(createSubCategoryContentDto);
   }
 
-  @Get()
-  findAll() {
-    return this.subCategoryContentService.findAll();
+  @ApiOperation({ summary: '合集子类别问答列表数据' })
+  @Get(':id')
+  findAll(@Param('id') id: string) {
+    return this.subCategoryContentService.findAll(id);
   }
 
   @Get(':id')

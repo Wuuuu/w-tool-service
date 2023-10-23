@@ -51,6 +51,7 @@ export class KnowledgeSubCategoryService {
         },
       },
     ]);
+    console.log('subCategoriesList', subCategoriesList);
     return subCategoriesList;
   }
 

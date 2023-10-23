@@ -16,7 +16,6 @@ export class SubCategoryContentService {
     const subCategoryItem = new this.subCategoryContentModel(
       createSubCategoryContentDto,
     );
-    console.log('subCategory', subCategoryItem);
     const existSubCategory = await this.subCategoryContentModel.findOne({
       title: subCategoryItem.title,
     });
@@ -27,7 +26,7 @@ export class SubCategoryContentService {
     return '新增成功';
   }
 
-  findAll() {
+  findAll(id: string) {
     return `This action returns all subCategoryContent`;
   }
 

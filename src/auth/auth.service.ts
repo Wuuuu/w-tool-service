@@ -12,17 +12,17 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.userService.findUser(username);
-    const passwordMatched = await bcrypt.compare(pass, user.password);
-    if (user && passwordMatched) {
+    if (!user) return null;
+    const passwordMatched = await bcrypt.compare(pass, user.hashedPassword);
+    if (passwordMatched) {
       const { password, ...result } = user;
       return result;
     }
-    return null;
   }
 
   async login(username, pass) {
     const user = await this.userService.findUser(username);
-    const passwordMatched = await bcrypt.compare(pass, user.password);
+    const passwordMatched = await bcrypt.compare(pass, user.hashedPassword);
     if (!passwordMatched) {
       throw new BadRequestException('密码错误！');
     }
