@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-
+import { ListItem } from './list-item.schema';
 @Schema({
   timestamps: { createdAt: 'createdTime', updatedAt: 'updatedTime' },
   collection: 'language_config',
@@ -19,7 +19,7 @@ export class LanguageConfig extends Document {
   summary: string;
 
   @Prop()
-  list: [];
+  list: ListItem[];
 }
 
 export const LanguageConfigSchema =

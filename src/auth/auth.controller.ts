@@ -35,7 +35,6 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @Post('logout')
   async logout(@Req() req) {
-    // console.log('req', req.lo);
     await req.logout((msg) => {
       console.log(msg);
     });
