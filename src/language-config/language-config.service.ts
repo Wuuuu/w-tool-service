@@ -24,21 +24,32 @@ export class LanguageConfigService {
     return '新增成功';
   }
 
-  async addToList(projectId: string, listItem: any): Promise<LanguageConfig> {
-    listItem.id = new mongoose.Types.ObjectId().toHexString();
-    listItem.create_time = new Date();
+  async addToList(id: string, listItem: any) {
+    const currentData = await this.languaConfigModel.findById(id);
+    let list = currentData.list;
     listItem.updated_time = new Date();
+    if (listItem._id) {
+      listItem._id = new mongoose.Types.ObjectId().toHexString();
+      listItem.create_time = new Date();
+      list = list.map((element) => {
+        if (listItem._id === element._id) {
+          return { ...element, ...listItem };
+        }
+        return element;
+      });
+    } else {
+      list.unshift(listItem);
+    }
     const updatedConfig = await this.languaConfigModel.findByIdAndUpdate(
-      projectId,
-      { $push: { list: listItem } },
+      id,
+      { list },
       { new: true },
     );
-
     return updatedConfig;
   }
 
-  findAll() {
-    return `This action returns all languageConfig`;
+  async findAll() {
+    return await this.languaConfigModel.find();
   }
 
   async findOne(id: string) {

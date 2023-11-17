@@ -29,16 +29,16 @@ export class LanguageConfigController {
   @ApiOperation({ summary: '项目列表新增数据项' })
   @Public()
   @ApiBearerAuth()
-  @Post(':id/add-to-list')
-  async addToList(@Param('id') projectId: string, @Body() listItem: any) {
-    console.log('listItem', listItem);
+  @Post(':id/add')
+  async addToList(@Param('id') id: string, @Body() listItem: any) {
     const updatedLanguageConfigList =
-      await this.languageConfigService.addToList(projectId, listItem);
+      await this.languageConfigService.addToList(id, listItem);
     return updatedLanguageConfigList;
   }
 
+  @ApiOperation({ summary: '多语言项目列表' })
   @Public()
-  @Get()
+  @Get('list')
   findAll() {
     return this.languageConfigService.findAll();
   }
