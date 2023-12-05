@@ -10,6 +10,7 @@ import { SubCategoryContentModule } from './subCategory-content/subCategory-cont
 import { UploadModule } from './upload/upload.module';
 import { CollectionTypeModule } from './collection-type/collection-type.module';
 import { LanguageConfigModule } from './language-config/language-config.module';
+import { TranslatorModule } from './translator/translator.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { LanguageConfigModule } from './language-config/language-config.module';
     CollectionTypeModule,
     UploadModule,
     LanguageConfigModule,
+    TranslatorModule,
   ],
   controllers: [],
   providers: [],

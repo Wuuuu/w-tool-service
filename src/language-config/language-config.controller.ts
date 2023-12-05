@@ -48,7 +48,6 @@ export class LanguageConfigController {
   @ApiBearerAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log(id);
     return this.languageConfigService.findOne(id);
   }
 

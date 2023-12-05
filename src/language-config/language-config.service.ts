@@ -29,7 +29,6 @@ export class LanguageConfigService {
     let list = currentData.list;
     listItem.updated_time = new Date();
     if (listItem._id) {
-      listItem._id = new mongoose.Types.ObjectId().toHexString();
       listItem.create_time = new Date();
       list = list.map((element) => {
         if (listItem._id === element._id) {
@@ -38,6 +37,7 @@ export class LanguageConfigService {
         return element;
       });
     } else {
+      listItem._id = new mongoose.Types.ObjectId().toHexString();
       list.unshift(listItem);
     }
     const updatedConfig = await this.languaConfigModel.findByIdAndUpdate(
@@ -45,7 +45,7 @@ export class LanguageConfigService {
       { list },
       { new: true },
     );
-    return updatedConfig;
+    return {};
   }
 
   async findAll() {

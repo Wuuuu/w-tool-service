@@ -66,7 +66,6 @@ export class KnowledgeSubCategoryService {
     const updatedSubCategory = await this.knowledgeSubCategoryModel
       .findByIdAndUpdate(id, updateKnowledgeSubCategoryDto, { new: true })
       .exec();
-    console.log('updatedSubCategory:', updatedSubCategory);
     return updatedSubCategory;
   }
 
