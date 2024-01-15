@@ -11,8 +11,9 @@ import { TranslatorService } from './translator.service';
 import { CreateTranslatorDto } from './dto/create-translator.dto';
 import { UpdateTranslatorDto } from './dto/update-translator.dto';
 import { Public } from '../auth/decorators/public.decorator';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('翻译模块')
 @Controller('translator')
 export class TranslatorController {
   constructor(private readonly translatorService: TranslatorService) {}
@@ -20,7 +21,6 @@ export class TranslatorController {
   @Post()
   @Public()
   @ApiOperation({ summary: '文案翻译' })
-  @Public()
   create(@Body() createTranslatorDto: CreateTranslatorDto) {
     return this.translatorService.create(createTranslatorDto);
   }

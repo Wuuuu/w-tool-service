@@ -11,6 +11,7 @@ import { UploadModule } from './upload/upload.module';
 import { CollectionTypeModule } from './collection-type/collection-type.module';
 import { LanguageConfigModule } from './language-config/language-config.module';
 import { TranslatorModule } from './translator/translator.module';
+import { OpenaiServiceModule } from './openai-service/openai-service.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { TranslatorModule } from './translator/translator.module';
     UploadModule,
     LanguageConfigModule,
     TranslatorModule,
+    OpenaiServiceModule,
   ],
   controllers: [],
   providers: [],
