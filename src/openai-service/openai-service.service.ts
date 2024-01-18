@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOpenaiServiceDto } from './dto/create-openai-service.dto';
 import { UpdateOpenaiServiceDto } from './dto/update-openai-service.dto';
 import { ConfigService } from '@nestjs/config';
@@ -13,7 +13,11 @@ export class OpenaiServiceService {
       baseURL: process.env['OPENAI_PROXY_URL'],
     });
   }
-  async create() {
+  async translateByGPT4(createTranslatorDto: CreateOpenaiServiceDto) {
+    // console.log('createTranslatorDto', createTranslatorDto);
+    const { translatText, detectedSourceLang, targetLang } =
+      createTranslatorDto;
+    const langCodes = targetLang.join(', ');
     try {
       const response = await this.openai.chat.completions.create({
         model: 'gpt-4',
@@ -21,25 +25,23 @@ export class OpenaiServiceService {
           {
             role: 'system',
             content:
-              'You will be provided with a sentence in English, and your task is to translate it into French.',
+              'You are given an English phrase or sentence and your task is to translate it into the target language.',
           },
           {
             role: 'user',
-            content: 'My name is Jane. What is yours?',
+            content: `English phrase or sentence is \'${translatText}\', source language is ${detectedSourceLang}, target languages code is \'${langCodes}\', As a result, just return a javascript object`,
           },
         ],
         temperature: 0,
-        max_tokens: 64,
+        max_tokens: 2000,
         top_p: 1,
       });
-      console.log('response', response);
       return response;
     } catch (error) {
       console.log('err', error);
     }
   }
   async chatWith3(createTranslatorDto: CreateOpenaiServiceDto) {
-    console.log('createTranslatorDto', createTranslatorDto);
     try {
       const runner = await this.openai.beta.chat.completions
         .stream({
@@ -79,7 +81,13 @@ export class OpenaiServiceService {
     return `This action updates a #${id} openaiService`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} openaiService`;
+  async remove(_id: string) {
+    //   const exitData = await this.languaConfigModel.findOneAndRemove({
+    //     _id,
+    //   });
+    //   if (!exitData) {
+    //     throw new HttpException('数据不存在', HttpStatus.BAD_REQUEST);
+    //   }
+    return '删除成功';
   }
 }

@@ -4,7 +4,7 @@ import { UpdateLanguageConfigDto } from './dto/update-language-config.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { LanguageConfig } from './schemas/language-config.schema';
-import { ListItem } from './schemas/list-item.schema';
+import { isEmpty } from 'class-validator';
 @Injectable()
 export class LanguageConfigService {
   constructor(
@@ -40,12 +40,8 @@ export class LanguageConfigService {
       listItem._id = new mongoose.Types.ObjectId().toHexString();
       list.unshift(listItem);
     }
-    const updatedConfig = await this.languaConfigModel.findByIdAndUpdate(
-      id,
-      { list },
-      { new: true },
-    );
-    return {};
+    await this.languaConfigModel.findByIdAndUpdate(id, { list }, { new: true });
+    return listItem;
   }
 
   async findAll() {
@@ -60,7 +56,20 @@ export class LanguageConfigService {
     return `This action updates a #${id} languageConfig`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} languageConfig`;
+  async remove({ parentId, id }: { parentId: string; id: string }) {
+    const { list = [] } =
+      (await this.languaConfigModel.findById(parentId)) || {};
+    const currentData = list.find((i) => i._id === id);
+    if (!currentData) {
+      throw new HttpException('数据不存在', HttpStatus.BAD_REQUEST);
+    }
+    const filterList = list.filter((i) => i._id !== id);
+    console.log('filterList', filterList);
+    await this.languaConfigModel.findByIdAndUpdate(
+      parentId,
+      { list: filterList },
+      { new: true },
+    );
+    return true;
   }
 }

@@ -31,9 +31,7 @@ export class LanguageConfigController {
   @ApiBearerAuth()
   @Post(':id/add')
   async addToList(@Param('id') id: string, @Body() listItem: any) {
-    const updatedLanguageConfigList =
-      await this.languageConfigService.addToList(id, listItem);
-    return updatedLanguageConfigList;
+    return await this.languageConfigService.addToList(id, listItem);
   }
 
   @ApiOperation({ summary: '多语言项目列表' })
@@ -59,8 +57,10 @@ export class LanguageConfigController {
     return this.languageConfigService.update(+id, updateLanguageConfigDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.languageConfigService.remove(+id);
+  @ApiOperation({ summary: '删除单项目下的多语言指定id数据' })
+  @ApiBearerAuth()
+  @Post('/delete')
+  remove(@Body() params: { parentId: string; id: string }) {
+    return this.languageConfigService.remove(params);
   }
 }

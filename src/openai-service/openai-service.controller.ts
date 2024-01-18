@@ -17,13 +17,13 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class OpenaiServiceController {
   constructor(private readonly openaiServiceService: OpenaiServiceService) {}
 
-  @Post()
+  @Post('patch-translation-gpt4')
   @ApiBearerAuth()
-  create() {
-    return this.openaiServiceService.create();
+  create(@Body() createOpenaiServiceDto: CreateOpenaiServiceDto) {
+    return this.openaiServiceService.translateByGPT4(createOpenaiServiceDto);
   }
 
-  @Post('chat-3')
+  @Post('patch-translation-gpt3')
   @ApiBearerAuth()
   chat_3(@Body() createOpenaiServiceDto: CreateOpenaiServiceDto) {
     return this.openaiServiceService.chatWith3(createOpenaiServiceDto);
@@ -50,6 +50,6 @@ export class OpenaiServiceController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.openaiServiceService.remove(+id);
+    return this.openaiServiceService.remove(id);
   }
 }
